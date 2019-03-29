@@ -1,6 +1,6 @@
 {
-  "2019-03-29 quote": "Don't cry because it's over, smile because it happened."
-  "2019-03-29 person": "Dr. Seuss"
-  "2019-03-30 quote": "In three words I can sum up everything I've learned about life: it goes on."
+  "2019-03-29 quote": "Don't cry because it's over, smile because it happened.",
+  "2019-03-29 person": "Dr. Seuss",
+  "2019-03-30 quote": "In three words I can sum up everything I've learned about life: it goes on.",
   "2019-03-30 person": "Robert Frost"
 }
