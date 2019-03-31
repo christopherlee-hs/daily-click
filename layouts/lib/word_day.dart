@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+
+// TODO: update text file to have nested lists
+// TODO: update data retrieval to work with nested lists
+// TODO: add archive of previous words
 
 Future<Post> fetchWordPost() async {
   final response = await http.get('https://chrisunjae.github.io/daily-click/word_day.txt');
@@ -49,100 +52,95 @@ class WordWidget extends StatelessWidget {
   @override
 
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Word of the Day',
-      theme: ThemeData(
-        primarySwatch: Colors.pink,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Word of the Day'),
+        backgroundColor: Colors.pink,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Word of the Day'),
-        ),
-        body: new ListView(
-          children: [
-            FutureBuilder<Post>(
-              future: post,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Column(
-                    children: [
-                      new Row(
-                        children: [
-                          new Expanded(
-                            child: new Container(
-                              margin: const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0, bottom: 8.0),
-                              child: new Text(
-                                "Word " + now.month.toString() + "/" + now.day.toString() + "/" + now.year.toString() + ":",
-                                style: new TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                ),
+      body: new ListView(
+        children: [
+          FutureBuilder<Post>(
+            future: post,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Column(
+                  children: [
+                    new Row(
+                      children: [
+                        new Expanded(
+                          child: new Container(
+                            margin: const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0, bottom: 8.0),
+                            child: new Text(
+                              "Word " + now.month.toString() + "/" + now.day.toString() + "/" + now.year.toString() + ":",
+                              style: new TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
+                    ),
 
-                      new Row(
-                        children: [
-                          new Expanded(
-                            child: new Container(
-                              margin: const EdgeInsets.only(left: 32.0, top: 0, right: 32.0, bottom: 4.0),
-                              child: new Text(
-                                snapshot.data.word.toLowerCase(),
-                                style: new TextStyle(
-                                  fontSize: 32.0,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                ),
+                    new Row(
+                      children: [
+                        new Expanded(
+                          child: new Container(
+                            margin: const EdgeInsets.only(left: 32.0, top: 0, right: 32.0, bottom: 4.0),
+                            child: new Text(
+                              snapshot.data.word.toLowerCase(),
+                              style: new TextStyle(
+                                fontSize: 32.0,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
+                    ),
 
-                      new Row(
-                        children: [
-                          new Expanded(
-                            child: new Container(
-                              margin: const EdgeInsets.only(left: 32.0, top: 0, right: 32.0, bottom: 8.0),
-                              child: new RichText(
-                                text: TextSpan(
-                                  style: new TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
+                    new Row(
+                      children: [
+                        new Expanded(
+                          child: new Container(
+                            margin: const EdgeInsets.only(left: 32.0, top: 0, right: 32.0, bottom: 8.0),
+                            child: new RichText(
+                              text: TextSpan(
+                                style: new TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: snapshot.data.pos + ". ", 
+                                    style: TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                    ),
                                   ),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: snapshot.data.pos + ". ", 
-                                      style: TextStyle(
-                                        fontStyle: FontStyle.italic,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: snapshot.data.def,
-                                    ),
-                                  ],
-                                ),
+                                  TextSpan(
+                                    text: snapshot.data.def,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ],
-                  );
-                }
-                else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              }
+              else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
 
-                return CircularProgressIndicator();
-              },
-            ),
-          ],
-        ),
+              return CircularProgressIndicator();
+            },
+          ),
+        ],
       ),
     );
   }

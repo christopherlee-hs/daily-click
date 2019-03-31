@@ -14,43 +14,96 @@ class _ListState extends State<ListWidget> {
     return Scaffold(
       appBar: new AppBar(
         title: new Text("The Daily Click"),
+        backgroundColor: Colors.purple,
       ),
-      body: ListView.builder(
-        itemBuilder: (context, position) {
-          if (position < 4) {
-            return OutlineButton(
-              child: Text(getTitle(position)),
-              onPressed: () {
-                if (position == 0) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => WordWidget(post: fetchWordPost())),
-                  );
-                }
-                else if (position == 1) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => QuoteWidget(post: fetchQuotePost())),
-                  );
-                }
-                else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SecondRoute()),
-                  );
-                }
-              },
-              
-            );
+      body: new Container(
+        margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
+        child: ListView.builder(
+          itemCount: 4,
+          itemBuilder: (context, position) {
+            if (position < 4) {
+              return RaisedButton(
+                child: Text(
+                  getTitle(position),
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                color: Colors.blue,
+                onPressed: () {
+                  if (position == 0) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WordWidget(post: fetchWordPost())
+                      ),
+                    );
+                  }
+                  else if (position == 1) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => QuoteWidget(post: fetchQuotePost())
+                      ),
+                    );
+                  }
+                  else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SecondRoute()
+                      ),
+                    );
+                  }
+                },
+                
+              );
+              /*
+              return Card(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.album),
+                      title: Text(getTitle(position)),
+                      subtitle: Text(getSubTitle(position)),
+                    ),
+                    ButtonTheme.bar( // make buttons use the appropriate styles for cards
+                      child: ButtonBar(
+                        children: <Widget>[
+                          FlatButton(
+                            child: const Text('BUY TICKETS'),
+                            onPressed: () {},
+                          ),
+                          FlatButton(
+                            child: const Text('LISTEN'),
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+              */
+                /*
+                child: InkWell(
+                  splashColor: Colors.blue.withAlpha(30),
+                  onTap: () {},
+                  child: Text(text),
+                ),
+                */
+            }
             /*
-            return Card(
+            if (position < 4) {
+              return Card(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  ListTile(
+                  const ListTile(
                     leading: Icon(Icons.album),
-                    title: Text(getTitle(position)),
-                    subtitle: Text(getSubTitle(position)),
+                    title: Text('The Enchanted Nightingale'),
+                    subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
                   ),
                   ButtonTheme.bar( // make buttons use the appropriate styles for cards
                     child: ButtonBar(
@@ -68,51 +121,15 @@ class _ListState extends State<ListWidget> {
                   ),
                 ],
               ),
-            );
-            */
-              /*
-              child: InkWell(
-                splashColor: Colors.blue.withAlpha(30),
-                onTap: () {},
-                child: Text(text),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(position.toString(), style: TextStyle(fontSize: 22.0),),
               ),
-              */
-          }
-          /*
-          if (position < 4) {
-            return Card(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const ListTile(
-                  leading: Icon(Icons.album),
-                  title: Text('The Enchanted Nightingale'),
-                  subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-                ),
-                ButtonTheme.bar( // make buttons use the appropriate styles for cards
-                  child: ButtonBar(
-                    children: <Widget>[
-                      FlatButton(
-                        child: const Text('BUY TICKETS'),
-                        onPressed: () {},
-                      ),
-                      FlatButton(
-                        child: const Text('LISTEN'),
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(position.toString(), style: TextStyle(fontSize: 22.0),),
-            ),
-          );
-          }
-        */
-        },
+            );
+            }
+          */
+          },
+        ),
       ),
     );
   }

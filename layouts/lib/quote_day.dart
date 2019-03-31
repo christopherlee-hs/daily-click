@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'quote_day_previous.dart';
+
+// TODO: make code compatible with new format json files (nested lists)
 
 Future<Post> fetchQuotePost() async {
   final response = await http.get('https://chrisunjae.github.io/daily-click/quote_day.txt');
@@ -43,157 +46,170 @@ class QuoteWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Quote of the Day',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Quote of the Day'),
+        backgroundColor: Colors.red,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Quote of the Day'),
-        ),
-        body: new ListView(
-          children: [
-            FutureBuilder<Post>(
-              future: post,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Column(
-                    children: [
-                      new Row(
-                        children: [
-                          new Expanded(
-                            child: new Container(
-                              margin: const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0, bottom: 8.0),
-                              child: new Text(
-                                "Quote " + now.month.toString() + "/" + now.day.toString() + "/" + now.year.toString() + ":",
-                                style: new TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                ),
+      body: new ListView(
+        children: [
+          FutureBuilder<Post>(
+            future: post,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Column(
+                  children: [
+                    new Row( // today's date
+                      children: [
+                        new Expanded(
+                          child: new Container(
+                            margin: const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0, bottom: 8.0),
+                            child: new Text(
+                              "Quote " + now.month.toString() + "/" + now.day.toString() + "/" + now.year.toString() + ":",
+                              style: new TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
+                    ),
 
-                      new Row(
-                        //margin: const EdgeInsets.all(32.0),
-                        children: [
-                          new Expanded(
-                            child: new Container(
-                              margin: const EdgeInsets.only(left: 32.0, top: 0.0, right: 32.0, bottom: 8.0),
-                              child: new Text(
-                                '\"' + snapshot.data.quote + '\"' ?? '',
-                                style: new TextStyle(
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                ),
+                    new Row( // today's quote
+                      //margin: const EdgeInsets.all(32.0),
+                      children: [
+                        new Expanded(
+                          child: new Container(
+                            margin: const EdgeInsets.only(left: 32.0, top: 0.0, right: 32.0, bottom: 8.0),
+                            child: new Text(
+                              '\"' + snapshot.data.quote + '\"' ?? '',
+                              style: new TextStyle(
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
                               ),
                             ),
                           ),
-                          
-                        ],
-                      ),
+                        ),
+                        
+                      ],
+                    ),
 
-                      new Row(
-                        //margin: const EdgeInsets.all(32.0),
-                        children: [
-                          new Expanded(
-                            child: new Container(
-                              margin: const EdgeInsets.only(right: 32.0),
+                    new Row( // today's person quoted
+                      //margin: const EdgeInsets.all(32.0),
+                      children: [
+                        new Expanded(
+                          child: new Container(
+                            margin: const EdgeInsets.only(right: 32.0),
 
-                              child: new Text(
-                                '— ' + snapshot.data.person ?? '',
-                                style: new TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              alignment: Alignment(1.0, 0.0),
-                            ),
-                          ),
-                          
-                        ],
-                      ),
-
-                      new Row(
-                        children: [
-                          new Expanded(
-                            child: new Container(
-                              margin: const EdgeInsets.only(left: 32.0, top: 43.0, right: 32.0, bottom: 8.0),
-                              child: new Text(
-                                "Yesterday's quote:",
-                                style: new TextStyle(
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                ),
+                            child: new Text(
+                              '— ' + snapshot.data.person ?? '',
+                              style: new TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
                               ),
                             ),
+                            alignment: Alignment(1.0, 0.0),
                           ),
-                        ],
-                      ),
+                        ),
+                        
+                      ],
+                    ),
 
-                      new Row(
-                        //margin: const EdgeInsets.all(32.0),
-                        children: [
-                          new Expanded(
-                            child: new Container(
-                              margin: const EdgeInsets.only(left: 32.0, top: 0.0, right: 32.0, bottom: 4.0),
-                              child: new Text(
-                                '\"' + snapshot.data.yesQuote + '\"' ?? '',
-                                style: new TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                ),
+                    new Row( // yesterday
+                      children: [
+                        new Expanded(
+                          child: new Container(
+                            margin: const EdgeInsets.only(left: 32.0, top: 43.0, right: 32.0, bottom: 8.0),
+                            child: new Text(
+                              "Yesterday's quote:",
+                              style: new TextStyle(
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
                               ),
                             ),
                           ),
-                          
-                        ],
-                      ),
+                        ),
+                      ],
+                    ),
 
-                      new Row(
-                        //margin: const EdgeInsets.all(32.0),
-                        children: [
-                          new Expanded(
-                            child: new Container(
-                              margin: const EdgeInsets.only(right: 32.0, top: 0.0),
-
-                              child: new Text(
-                                '— ' + snapshot.data.yesPerson ?? '',
-                                style: new TextStyle(
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                ),
+                    new Row( // yesterday's date
+                      //margin: const EdgeInsets.all(32.0),
+                      children: [
+                        new Expanded(
+                          child: new Container(
+                            margin: const EdgeInsets.only(left: 32.0, top: 0.0, right: 32.0, bottom: 4.0),
+                            child: new Text(
+                              '\"' + snapshot.data.yesQuote + '\"' ?? '',
+                              style: new TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
                               ),
-                              alignment: Alignment(1.0, 0.0),
                             ),
                           ),
-                          
-                        ],
-                      ),
-                    ],
-                  );
-                  
-                  
-                  //Text(snapshot.data.quote ?? '');
-                }
-                else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
+                        ),
+                        
+                      ],
+                    ),
 
-                return CircularProgressIndicator();
-              },
-            ),
-          ]
-        ),
+                    new Row( // yesterday's person quoted
+                      //margin: const EdgeInsets.all(32.0),
+                      children: [
+                        new Expanded(
+                          child: new Container(
+                            margin: const EdgeInsets.only(right: 32.0, bottom: 32.0),
+
+                            child: new Text(
+                              '— ' + snapshot.data.yesPerson ?? '',
+                              style: new TextStyle(
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              ),
+                            ),
+                            alignment: Alignment(1.0, 0.0),
+                          ),
+                        ),
+                        
+                      ],
+                    ),
+
+                    new RaisedButton(
+                      child: Text(
+                        "Archived quotes",
+                        style: new TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      color: Colors.blue,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => QuotePreviousWidget(),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                );
+                
+                
+                //Text(snapshot.data.quote ?? '');
+              }
+              else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+
+              return CircularProgressIndicator();
+            },
+          ),
+        ]
       ),
     );
   }
