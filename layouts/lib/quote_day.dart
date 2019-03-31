@@ -64,7 +64,7 @@ class QuoteWidget extends StatelessWidget {
                         children: [
                           new Expanded(
                             child: new Container(
-                              margin: const EdgeInsets.only(left: 32.0, top: 43.0, right: 32.0, bottom: 8.0),
+                              margin: const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0, bottom: 8.0),
                               child: new Text(
                                 "Quote " + now.month.toString() + "/" + now.day.toString() + "/" + now.year.toString() + ":",
                                 style: new TextStyle(

@@ -66,7 +66,71 @@ class WordWidget extends StatelessWidget {
                 if (snapshot.hasData) {
                   return Column(
                     children: [
+                      new Row(
+                        children: [
+                          new Expanded(
+                            child: new Container(
+                              margin: const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0, bottom: 8.0),
+                              child: new Text(
+                                "Word " + now.month.toString() + "/" + now.day.toString() + "/" + now.year.toString() + ":",
+                                style: new TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
 
+                      new Row(
+                        children: [
+                          new Expanded(
+                            child: new Container(
+                              margin: const EdgeInsets.only(left: 32.0, top: 0, right: 32.0, bottom: 8.0),
+                              child: new Text(
+                                snapshot.data.word.toLowerCase(),
+                                style: new TextStyle(
+                                  fontSize: 32.0,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      new Row(
+                        children: [
+                          new Expanded(
+                            child: new Container(
+                              margin: const EdgeInsets.only(left: 32.0, top: 0, right: 32.0, bottom: 8.0),
+                              child: new RichText(
+                                text: TextSpan(
+                                  style: new TextStyle(
+                                    fontSize: 24.0,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
+                                  ),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: snapshot.data.pos + ". ", 
+                                      style: TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: snapshot.data.def,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   );
                 }
