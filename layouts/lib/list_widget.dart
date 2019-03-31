@@ -12,7 +12,9 @@ class ListWidget extends StatefulWidget {
 class _ListState extends State<ListWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(title: new Text("The Daily Click"),),
+      appBar: new AppBar(
+        title: new Text("The Daily Click"),
+      ),
       body: ListView.builder(
         itemBuilder: (context, position) {
           if (position < 4) {

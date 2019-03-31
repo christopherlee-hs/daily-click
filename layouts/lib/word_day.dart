@@ -88,7 +88,7 @@ class WordWidget extends StatelessWidget {
                         children: [
                           new Expanded(
                             child: new Container(
-                              margin: const EdgeInsets.only(left: 32.0, top: 0, right: 32.0, bottom: 8.0),
+                              margin: const EdgeInsets.only(left: 32.0, top: 0, right: 32.0, bottom: 4.0),
                               child: new Text(
                                 snapshot.data.word.toLowerCase(),
                                 style: new TextStyle(
@@ -110,7 +110,7 @@ class WordWidget extends StatelessWidget {
                               child: new RichText(
                                 text: TextSpan(
                                   style: new TextStyle(
-                                    fontSize: 24.0,
+                                    fontSize: 20.0,
                                     fontWeight: FontWeight.w400,
                                     color: Colors.black,
                                   ),
