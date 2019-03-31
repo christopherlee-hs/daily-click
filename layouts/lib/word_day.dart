@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<Post> fetchWordPost() async {
-  final response = await http.get('https://jsonplaceholder.typicode.com/posts/1');
+  final response = await http.get('https://chrisunjae.github.io/daily-click/word_day.txt');
   if (response.statusCode == 200) { // server returns ok response
     return Post.fromJson(json.decode(response.body));
   }
@@ -14,20 +14,29 @@ Future<Post> fetchWordPost() async {
   }
 }
 
-class Post {
-  final int userId;
-  final int id;
-  final String title;
-  final String body;
+var now = new DateTime.now();
+String today = now.year.toString() + ' ' + now.month.toString() + ' ' + now.day.toString();
+var prev = new DateTime(now.year, now.month, now.day - 1);
+String yesterday = prev.year.toString() + ' ' + prev.month.toString() + ' ' + prev.day.toString();
 
-  Post({this.userId, this.id, this.title, this.body});
+class Post {
+  final String word;
+  final String pos;
+  final String def;
+  final String yesWord;
+  final String yesPos;
+  final String yesDef;
+
+  Post({this.word, this.pos, this.def, this.yesWord, this.yesPos, this.yesDef});
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
-      userId: json['userId'],
-      id: json['id'],
-      title: json['title'],
-      body: json['body'],
+      word: json[today + ' word'],
+      pos: json[today + ' part of speech'],
+      def: json[today + ' definition'],
+      yesWord: json[yesterday + ' word'],
+      yesPos: json[yesterday + ' part of speech'],
+      yesDef: json[yesterday + ' definition'],
     );
   }
 }
@@ -43,26 +52,32 @@ class WordWidget extends StatelessWidget {
     return MaterialApp(
       title: 'Word of the Day',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.pink,
       ),
       home: Scaffold(
         appBar: AppBar(
           title: Text('Word of the Day'),
         ),
-        body: Center(
-          child: FutureBuilder<Post>(
-            future: post,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data.title);
-              }
-              else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
+        body: new ListView(
+          children: [
+            FutureBuilder<Post>(
+              future: post,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                    children: [
 
-              return CircularProgressIndicator();
-            },
-          ),
+                    ],
+                  );
+                }
+                else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+
+                return CircularProgressIndicator();
+              },
+            ),
+          ],
         ),
       ),
     );
