@@ -19,5 +19,5 @@
   "2019 4 2 definition": "defintion",
   "2019 4 3 word": "word",
   "2019 4 3 part of speech": "part of speech",
-  "2019 4 3 definition": "defintion",
+  "2019 4 3 definition": "defintion"
 }
