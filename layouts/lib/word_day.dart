@@ -23,23 +23,15 @@ var prev = new DateTime(now.year, now.month, now.day - 1);
 String yesterday = prev.year.toString() + ' ' + prev.month.toString() + ' ' + prev.day.toString();
 
 class Post {
-  final String word;
-  final String pos;
-  final String def;
-  final String yesWord;
-  final String yesPos;
-  final String yesDef;
+  final List<String> todayWordData;
+  final List<String> yesWordData;
 
-  Post({this.word, this.pos, this.def, this.yesWord, this.yesPos, this.yesDef});
+  Post({this.todayWordData, this.yesWordData});
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
-      word: json[today + ' word'],
-      pos: json[today + ' part of speech'],
-      def: json[today + ' definition'],
-      yesWord: json[yesterday + ' word'],
-      yesPos: json[yesterday + ' part of speech'],
-      yesDef: json[yesterday + ' definition'],
+      todayWordData: json[today],
+      yesWordData: json[yesterday],
     );
   }
 }
@@ -89,7 +81,7 @@ class WordWidget extends StatelessWidget {
                           child: new Container(
                             margin: const EdgeInsets.only(left: 32.0, top: 0, right: 32.0, bottom: 4.0),
                             child: new Text(
-                              snapshot.data.word.toLowerCase(),
+                              snapshot.data.todayWordData[0].toLowerCase(),
                               style: new TextStyle(
                                 fontSize: 32.0,
                                 fontWeight: FontWeight.w400,
@@ -115,13 +107,13 @@ class WordWidget extends StatelessWidget {
                                 ),
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text: snapshot.data.pos + ". ", 
+                                    text: snapshot.data.todayWordData[1] + ". ", 
                                     style: TextStyle(
                                       fontStyle: FontStyle.italic,
                                     ),
                                   ),
                                   TextSpan(
-                                    text: snapshot.data.def,
+                                    text: snapshot.data.todayWordData[2],
                                   ),
                                 ],
                               ),
