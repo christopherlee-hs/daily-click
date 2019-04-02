@@ -54,11 +54,68 @@ class QuotePreviousWidget extends StatelessWidget {
                       Map<String, List<dynamic>> quoteDataMap = snapshot.data.quoteData;
                       if (quoteDataMap.containsKey(sDate)) {
                         return new Container(
-                          margin: const EdgeInsets.all(32.0),
-                          child: new Row(
+                          child: new Column(
                             children: [
-                              new Expanded(child: new Text(quoteDataMap[sDate][0])),
-                              new Text(quoteDataMap[sDate][1]),
+                              new Row( // yesterday
+                                children: [
+                                  new Expanded(
+                                    child: new Container(
+                                      margin: const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0, bottom: 8.0),
+                                      child: new Text(
+                                        date.month.toString() + '/' + date.day.toString() + '/' + date.year.toString(),
+                                        style: new TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              new Row( // yesterday's date
+                                //margin: const EdgeInsets.all(32.0),
+                                children: [
+                                  new Expanded(
+                                    child: new Container(
+                                      margin: const EdgeInsets.only(left: 32.0, top: 0.0, right: 32.0, bottom: 4.0),
+                                      child: new Text(
+                                        '\"' + quoteDataMap[sDate][0] + '\"' ?? '',
+                                        style: new TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  
+                                ],
+                              ),
+
+                              new Row( // yesterday's person quoted
+                                //margin: const EdgeInsets.all(32.0),
+                                children: [
+                                  new Expanded(
+                                    child: new Container(
+                                      margin: const EdgeInsets.only(right: 32.0),
+
+                                      child: new Text(
+                                        '— ' + quoteDataMap[sDate][1] ?? '',
+                                        style: new TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      alignment: Alignment(1.0, 0.0),
+                                    ),
+                                  ),
+                                  
+                                ],
+                              ),
+                              
                             ],
                           ),
                         );
