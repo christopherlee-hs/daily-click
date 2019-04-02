@@ -6,20 +6,18 @@ import 'package:http/http.dart' as http;
 // TODO: figure out how to retrieve all the data as a list
 // TODO: fix all this broken code
 
-var date = new DateTime.now();
+var today = new DateTime.now();
 
 class Post {
 
-  final String quote;
-  final String person;
+  final List<String> quoteData;
 
-  Post({this.quote, this.person});
+  Post({this.quoteData});
 
-  factory Post.fromJson(Map<String, dynamic> json) {
+  factory Post.fromJson(Map<String, dynamic> json, DateTime date) {
     String dateFormat = date.year.toString() + ' ' + date.month.toString() + ' ' + date.day.toString();
     return Post(
-      quote: json[dateFormat + ' quote'],
-      person: json[dateFormat + ' person'],
+      quoteData: new List<String>.from(json[dateFormat]),
     );
   }
 }
@@ -34,17 +32,15 @@ class QuotePreviousWidget extends StatefulWidget {
 class _QuotePreviousState extends State<QuotePreviousWidget> {
   List<Post> list = List();
   var isLoading = false;
+  Map<String, dynamic> jsonData;
   fetchPreviousQuotesPost() async {
     setState(() {
       isLoading = true;
     });
     final response = await(http.get('https://chrisunjae.github.io/daily-click/quote_day.txt'));
     if (response.statusCode == 200) {
-      (json.decode(response.body));
-
-      //list = (json.decode(response.body) as List).map((data) => new Post.fromJson(data)).toList();
+      jsonData = json.decode(response.body);
       isLoading = false;
-      print('here');
     }
     else {
       throw Exception('Failed to load post');
@@ -60,10 +56,9 @@ class _QuotePreviousState extends State<QuotePreviousWidget> {
       body: isLoading ?
       Center(child: CircularProgressIndicator(),)
       : ListView.builder(
-        itemCount: 2,
         itemBuilder: (BuildContext context, int index) {
-          print(index);
-          print(list.length);
+          Post info = Post.fromJson(jsonData, new DateTime(today.year, today.month, today.day - index));
+          return Scaffold();
         }
       ),
     );
