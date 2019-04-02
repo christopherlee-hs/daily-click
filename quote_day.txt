@@ -5,7 +5,7 @@
   ],
   "2019 3 29": [
     "Don't cry because it's over, smile because it happened.",
-    "2019 3 29": "Dr. Seuss",
+    "2019 3 29": "Dr. Seuss"
   ],
   "2019 3 30": [
     "In three words I can sum up everything I've learned about life: it goes on.",

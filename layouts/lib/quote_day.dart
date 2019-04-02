@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'quote_day_previous.dart';
 
-// TODO: make code compatible with new format json files (nested lists)
+// TODO: make code compatible with new format json files (arrays)
 
 Future<Post> fetchQuotePost() async {
   final response = await http.get('https://chrisunjae.github.io/daily-click/quote_day.txt');
@@ -22,19 +22,15 @@ var prev = new DateTime(now.year, now.month, now.day - 1);
 String yesterday = prev.year.toString() + ' ' + prev.month.toString() + ' ' + prev.day.toString();
 
 class Post {
-  final String quote;
-  final String person;
-  final String yesQuote;
-  final String yesPerson;
+  final List<String> quoteData;
+  final List<String> yesQuoteData;
 
-  Post({this.quote, this.person, this.yesQuote, this.yesPerson});
+  Post({this.quoteData, this.yesQuoteData});
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
-      quote: json[today + ' quote'],
-      person: json[today + ' person'],
-      yesQuote: json[yesterday + ' quote'],
-      yesPerson: json[yesterday + ' person'],
+      quoteData: new List<String>.from(json[today]),
+      yesQuoteData: new List<String>.from(json[yesterday]),
     );
   }
 }
@@ -84,7 +80,7 @@ class QuoteWidget extends StatelessWidget {
                           child: new Container(
                             margin: const EdgeInsets.only(left: 32.0, top: 0.0, right: 32.0, bottom: 8.0),
                             child: new Text(
-                              '\"' + snapshot.data.quote + '\"' ?? '',
+                              '\"' + snapshot.data.quoteData[0] + '\"' ?? '',
                               style: new TextStyle(
                                 fontSize: 24.0,
                                 fontWeight: FontWeight.w400,
@@ -105,7 +101,7 @@ class QuoteWidget extends StatelessWidget {
                             margin: const EdgeInsets.only(right: 32.0),
 
                             child: new Text(
-                              '— ' + snapshot.data.person ?? '',
+                              '— ' + snapshot.data.quoteData[1] ?? '',
                               style: new TextStyle(
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w400,
@@ -144,7 +140,7 @@ class QuoteWidget extends StatelessWidget {
                           child: new Container(
                             margin: const EdgeInsets.only(left: 32.0, top: 0.0, right: 32.0, bottom: 4.0),
                             child: new Text(
-                              '\"' + snapshot.data.yesQuote + '\"' ?? '',
+                              '\"' + snapshot.data.yesQuoteData[0] + '\"' ?? '',
                               style: new TextStyle(
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w400,
@@ -165,7 +161,7 @@ class QuoteWidget extends StatelessWidget {
                             margin: const EdgeInsets.only(right: 32.0, bottom: 32.0),
 
                             child: new Text(
-                              '— ' + snapshot.data.yesPerson ?? '',
+                              '— ' + snapshot.data.yesQuoteData[1] ?? '',
                               style: new TextStyle(
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.w400,

@@ -3,8 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-// TODO: update text file to have nested lists
-// TODO: update data retrieval to work with nested lists
+// TODO: update data retrieval to work with arrays
 // TODO: add archive of previous words
 
 Future<Post> fetchWordPost() async {
@@ -30,8 +29,8 @@ class Post {
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
-      todayWordData: json[today],
-      yesWordData: json[yesterday],
+      todayWordData: new List<String>.from(json[today]),
+      yesWordData: new List<String>.from(json[yesterday]),
     );
   }
 }
@@ -61,7 +60,7 @@ class WordWidget extends StatelessWidget {
                       children: [
                         new Expanded(
                           child: new Container(
-                            margin: const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0, bottom: 8.0),
+                            margin: const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0, bottom: 4.0),
                             child: new Text(
                               "Word " + now.month.toString() + "/" + now.day.toString() + "/" + now.year.toString() + ":",
                               style: new TextStyle(
