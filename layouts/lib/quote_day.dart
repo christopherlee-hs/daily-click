@@ -187,7 +187,7 @@ class QuoteWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => QuotePreviousWidget(),
+                            builder: (context) => QuotePreviousWidget(post: fetchQuotePreviousPost()),
                           ),
                         );
                       },

@@ -6,60 +6,74 @@ import 'package:http/http.dart' as http;
 // TODO: figure out how to retrieve all the data as a list
 // TODO: fix all this broken code
 
+Future<Post> fetchQuotePreviousPost() async {
+  final response = await http.get('https://chrisunjae.github.io/daily-click/quote_day.txt');
+  if (response.statusCode == 200) {
+    return Post.fromJson(json.decode(response.body));
+  }
+  else {
+    throw Exception('Failed to load post');
+  }
+}
+
 var today = new DateTime.now();
 
 class Post {
-
-  final List<String> quoteData;
+  Map<String, List<dynamic>> quoteData;
 
   Post({this.quoteData});
 
-  factory Post.fromJson(Map<String, dynamic> json, DateTime date) {
-    String dateFormat = date.year.toString() + ' ' + date.month.toString() + ' ' + date.day.toString();
+  factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
-      quoteData: new List<String>.from(json[dateFormat]),
+      quoteData: new Map<String, List<dynamic>>.from(json),
     );
   }
 }
 
-class QuotePreviousWidget extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _QuotePreviousState();
-  }
-}
+class QuotePreviousWidget extends StatelessWidget {
+  final Future<Post> post;
+  QuotePreviousWidget({Key key, this.post});
 
-class _QuotePreviousState extends State<QuotePreviousWidget> {
-  List<Post> list = List();
-  var isLoading = false;
-  Map<String, dynamic> jsonData;
-  fetchPreviousQuotesPost() async {
-    setState(() {
-      isLoading = true;
-    });
-    final response = await(http.get('https://chrisunjae.github.io/daily-click/quote_day.txt'));
-    if (response.statusCode == 200) {
-      jsonData = json.decode(response.body);
-      isLoading = false;
-    }
-    else {
-      throw Exception('Failed to load post');
-    }
-  }
   Widget build(BuildContext context) {
-    fetchPreviousQuotesPost();
     return Scaffold(
       appBar: new AppBar(
         title: Text("Previous Quotes"),
         backgroundColor: Colors.red,
       ),
-      body: isLoading ?
-      Center(child: CircularProgressIndicator(),)
-      : ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          Post info = Post.fromJson(jsonData, new DateTime(today.year, today.month, today.day - index));
-          return Scaffold();
-        }
+      body: new Row(
+        children: [
+          new Expanded(
+            child: FutureBuilder<Post>(
+              future: post,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    itemBuilder: (context, position) {
+                      var date = new DateTime(today.year, today.month, today.day - position);
+                      String sDate = date.year.toString() + ' ' + date.month.toString() + ' ' + date.day.toString();
+                      Map<String, List<dynamic>> quoteDataMap = snapshot.data.quoteData;
+                      if (quoteDataMap.containsKey(sDate)) {
+                        return new Container(
+                          margin: const EdgeInsets.all(32.0),
+                          child: new Row(
+                            children: [
+                              new Expanded(child: new Text(quoteDataMap[sDate][0])),
+                              new Text(quoteDataMap[sDate][1]),
+                            ],
+                          ),
+                        );
+                      }
+                    },
+                  );
+                }
+                else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                return CircularProgressIndicator();
+              }
+            ),
+          )
+        ],
       ),
     );
   }
