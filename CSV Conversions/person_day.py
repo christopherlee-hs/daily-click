@@ -1,19 +1,25 @@
 import json
 import csv
 
-filename = "Quote_Word_Person_Fact of the Day Ideas - Quotes.csv"
+filename = "Quote_Word_Person_Fact of the Day Ideas - Person.csv"
 path = "CSVs/" + filename
 
-quotes = []
 people = []
+birth = []
+death = []
+sums = []
+photolinks = []
 
 with open(path, "r") as csvfile:
     csvreader = csv.DictReader(csvfile)
     for row in csvreader:
-        quotes.append(row["Quote"])
         people.append(row["Person"])
+        birth.append(row["Birth Year"])
+        death.append(row["Death Year"])
+        sums.append(row["Paragraph summary"])
+        photolinks.append(row["Link to Photo"])
 
-jsonfile = "quote_day.json"
+jsonfile = "person_day.json"
 outpath = "../json/" + jsonfile
 
 def nextday(date):
@@ -53,7 +59,7 @@ with open(outpath, "r") as jsonfile:
     for i in range(start, length):
         day = nextday(day)
         daystring = str(day[0]) + " " + str(day[1]) + " " + chr(day[2]+64)
-        data[daystring] = [quotes[i], people[i]]
+        data[daystring] = [people[i], birth[i], death[i], sums[i], photolinks[i]]
     jsonout = json.dumps(data, sort_keys=True, indent=2)
 
 with open(outpath, "w") as jsonfile:

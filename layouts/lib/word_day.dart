@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 // TODO: add archive of previous words
 
 Future<Post> fetchWordPost() async {
-  final response = await http.get('https://chrisunjae.github.io/daily-click/word_day.txt');
+  final response = await http.get('https://chrisunjae.github.io/daily-click/json/word_day.json');
   if (response.statusCode == 200) { // server returns ok response
     return Post.fromJson(json.decode(response.body));
   }

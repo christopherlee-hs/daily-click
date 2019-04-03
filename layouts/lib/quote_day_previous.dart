@@ -45,7 +45,6 @@ class QuotePreviousWidget extends StatelessWidget {
               future: post,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  today = new DateTime(2019, 4, 13); //TODO: get rid of this debug line
                   return ListView.separated(
                     itemCount: 100,
                     separatorBuilder: (context, position) => Divider(),

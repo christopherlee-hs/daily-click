@@ -4,8 +4,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'quote_day_previous.dart';
 
-// TODO: make code compatible with new format json files (arrays)
-// TODO: convert input files to .json
 // TODO: make code and input files compatible with new date format: day = character (char code of day + 64) for better alphanumeric sorting
 
 Future<Post> fetchQuotePost() async {
