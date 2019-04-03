@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 
 Future<Post> fetchQuotePreviousPost() async {
-  final response = await http.get('https://chrisunjae.github.io/daily-click/quote_day.json');
+  final response = await http.get('https://chrisunjae.github.io/daily-click/json/quote_day.json');
   if (response.statusCode == 200) {
     return Post.fromJson(json.decode(response.body));
   }

@@ -9,7 +9,7 @@ import 'quote_day_previous.dart';
 // TODO: make code and input files compatible with new date format: day = character (char code of day + 64) for better alphanumeric sorting
 
 Future<Post> fetchQuotePost() async {
-  final response = await http.get('https://chrisunjae.github.io/daily-click/quote_day.json');
+  final response = await http.get('https://chrisunjae.github.io/daily-click/json/quote_day.json');
   if (response.statusCode == 200) { // server returns ok response
     return Post.fromJson(json.decode(response.body));
   }
