@@ -9,7 +9,7 @@ import 'quote_day_previous.dart';
 // TODO: make code and input files compatible with new date format: day = character (char code of day + 64) for better alphanumeric sorting
 
 Future<Post> fetchQuotePost() async {
-  final response = await http.get('https://chrisunjae.github.io/daily-click/quote_day.txt');
+  final response = await http.get('https://chrisunjae.github.io/daily-click/quote_day.json');
   if (response.statusCode == 200) { // server returns ok response
     return Post.fromJson(json.decode(response.body));
   }
@@ -19,9 +19,7 @@ Future<Post> fetchQuotePost() async {
 }
 
 var now = new DateTime.now();
-String today = now.year.toString() + ' ' + now.month.toString() + ' ' + String.fromCharCode(now.day + 64);
 var prev = new DateTime(now.year, now.month, now.day - 1);
-String yesterday = prev.year.toString() + ' ' + prev.month.toString() + ' ' + String.fromCharCode(prev.day + 64);
 
 class Post {
   final List<String> quoteData;
@@ -30,9 +28,11 @@ class Post {
   Post({this.quoteData, this.yesQuoteData});
 
   factory Post.fromJson(Map<String, dynamic> json) {
+    String date = now.year.toString() + ' ' + now.month.toString() + ' ' + String.fromCharCode(now.day + 64);
+    String yesDate = prev.year.toString() + ' ' + prev.month.toString() + ' ' + String.fromCharCode(prev.day + 64);
     return Post(
-      quoteData: new List<String>.from(json[today]),
-      yesQuoteData: new List<String>.from(json[yesterday]),
+      quoteData: new List<String>.from(json[date]),
+      yesQuoteData: new List<String>.from(json[yesDate]),
     );
   }
 }

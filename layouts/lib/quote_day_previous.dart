@@ -3,8 +3,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-// TODO: figure out how to retrieve all the data as a list
-// TODO: fix all this broken code
 
 Future<Post> fetchQuotePreviousPost() async {
   final response = await http.get('https://chrisunjae.github.io/daily-click/quote_day.json');
@@ -47,12 +45,12 @@ class QuotePreviousWidget extends StatelessWidget {
               future: post,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  print(snapshot.data.quoteData);
+                  today = new DateTime(2019, 4, 13); //TODO: get rid of this debug line
                   return ListView.separated(
                     itemCount: 100,
                     separatorBuilder: (context, position) => Divider(),
                     itemBuilder: (context, position) {
-                      var date = new DateTime(today.year, today.month, today.day - position);
+                      var date = new DateTime(today.year, today.month, today.day - position - 2);
                       String sDate = date.year.toString() + ' ' + date.month.toString() + ' ' + String.fromCharCode(date.day + 64);
                       Map<String, List<dynamic>> quoteDataMap = snapshot.data.quoteData;
                       if (quoteDataMap.containsKey(sDate)) {
@@ -84,7 +82,7 @@ class QuotePreviousWidget extends StatelessWidget {
                                     child: new Container(
                                       margin: const EdgeInsets.only(left: 32.0, top: 0.0, right: 32.0, bottom: 4.0),
                                       child: new Text(
-                                        '\"' + quoteDataMap[sDate][0] + '\"' ?? '',
+                                        '\"' + quoteDataMap[sDate][0].replaceAll("\"", "\'") + '\"' ?? '',
                                         style: new TextStyle(
                                           fontSize: 20.0,
                                           fontWeight: FontWeight.w400,
