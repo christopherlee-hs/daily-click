@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 
-Future<Post> fetchQuotePreviousPost() async {
-  final response = await http.get('https://chrisunjae.github.io/daily-click/json/quote_day.json');
+Future<Post> fetchWordPreviousPost() async {
+  final response = await http.get('https://chrisunjae.github.io/daily-click/json/word_day.json');
   if (response.statusCode == 200) {
     return Post.fromJson(json.decode(response.body));
   }
@@ -17,26 +17,26 @@ Future<Post> fetchQuotePreviousPost() async {
 var today = new DateTime.now();
 
 class Post {
-  Map<String, List<dynamic>> quoteData;
+  Map<String, List<dynamic>> wordData;
 
-  Post({this.quoteData});
+  Post({this.wordData});
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
-      quoteData: new Map<String, List<dynamic>>.from(json),
+      wordData: new Map<String, List<dynamic>>.from(json),
     );
   }
 }
 
-class QuotePreviousWidget extends StatelessWidget {
+class WordPreviousWidget extends StatelessWidget {
   final Future<Post> post;
-  QuotePreviousWidget({Key key, this.post});
+  WordPreviousWidget({Key key, this.post});
 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: Text("Previous Quotes"),
-        backgroundColor: Colors.red,
+        title: Text("Previous Words"),
+        backgroundColor: Colors.pink,
       ),
       body: new Row(
         children: [
@@ -51,16 +51,16 @@ class QuotePreviousWidget extends StatelessWidget {
                     itemBuilder: (context, position) {
                       var date = new DateTime(today.year, today.month, today.day - position - 2);
                       String sDate = date.year.toString() + ' ' + date.month.toString() + ' ' + String.fromCharCode(date.day + 64);
-                      Map<String, List<dynamic>> quoteDataMap = snapshot.data.quoteData;
-                      if (quoteDataMap.containsKey(sDate)) {
+                      Map<String, List<dynamic>> wordDataMap = snapshot.data.wordData;
+                      if (wordDataMap.containsKey(sDate)) {
                         return new Container(
                           child: new Column(
                             children: [
-                              new Row( // yesterday
+                              new Row(
                                 children: [
                                   new Expanded(
                                     child: new Container(
-                                      margin: const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0, bottom: 8.0),
+                                      margin: const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0, bottom: 4.0),
                                       child: new Text(
                                         date.month.toString() + '/' + date.day.toString() + '/' + date.year.toString(),
                                         style: new TextStyle(
@@ -80,9 +80,9 @@ class QuotePreviousWidget extends StatelessWidget {
                                     child: new Container(
                                       margin: const EdgeInsets.only(left: 32.0, top: 0.0, right: 32.0, bottom: 4.0),
                                       child: new Text(
-                                        '\"' + quoteDataMap[sDate][0].replaceAll("\"", "\'") + '\"' ?? '',
+                                        wordDataMap[sDate][0].toLowerCase(),
                                         style: new TextStyle(
-                                          fontSize: 20.0,
+                                          fontSize: 24.0,
                                           fontWeight: FontWeight.w400,
                                           color: Colors.black,
                                         ),
@@ -97,17 +97,27 @@ class QuotePreviousWidget extends StatelessWidget {
                                 children: [
                                   new Expanded(
                                     child: new Container(
-                                      margin: const EdgeInsets.only(right: 32.0),
-
-                                      child: new Text(
-                                        '— ' + quoteDataMap[sDate][1] ?? '',
-                                        style: new TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black,
+                                      margin: const EdgeInsets.only(left: 32.0, top: 0, right: 32.0, bottom: 8.0),
+                                      child: new RichText(
+                                        text: TextSpan(
+                                          style: new TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.black,
+                                          ),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                              text: wordDataMap[sDate][1] + ". ",
+                                              style: TextStyle(
+                                                fontStyle: FontStyle.italic,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: wordDataMap[sDate][2],
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                      alignment: Alignment(1.0, 0.0),
+                                      )
                                     ),
                                   ),
                                   

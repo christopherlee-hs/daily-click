@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'word_day_previous.dart';
 
-// TODO: update data retrieval to work with arrays
 // TODO: add archive of previous words
 
 Future<Post> fetchWordPost() async {
@@ -17,9 +17,9 @@ Future<Post> fetchWordPost() async {
 }
 
 var now = new DateTime.now();
-String today = now.year.toString() + ' ' + now.month.toString() + ' ' + now.day.toString();
+String today = now.year.toString() + ' ' + now.month.toString() + ' ' + String.fromCharCode(now.day + 64);
 var prev = new DateTime(now.year, now.month, now.day - 1);
-String yesterday = prev.year.toString() + ' ' + prev.month.toString() + ' ' + prev.day.toString();
+String yesterday = prev.year.toString() + ' ' + prev.month.toString() + ' ' + String.fromCharCode(prev.day + 64);
 
 class Post {
   final List<String> todayWordData;
@@ -56,7 +56,7 @@ class WordWidget extends StatelessWidget {
               if (snapshot.hasData) {
                 return Column(
                   children: [
-                    new Row(
+                    new Row( // today date
                       children: [
                         new Expanded(
                           child: new Container(
@@ -74,7 +74,7 @@ class WordWidget extends StatelessWidget {
                       ],
                     ),
 
-                    new Row(
+                    new Row( // today word
                       children: [
                         new Expanded(
                           child: new Container(
@@ -92,7 +92,7 @@ class WordWidget extends StatelessWidget {
                       ],
                     ),
 
-                    new Row(
+                    new Row( // today pos & def
                       children: [
                         new Expanded(
                           child: new Container(
@@ -120,6 +120,90 @@ class WordWidget extends StatelessWidget {
                           ),
                         ),
                       ],
+                    ),
+
+                    new Row( // yesterday date
+                      children: [
+                        new Expanded(
+                          child: new Container(
+                            margin: const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0, bottom: 4.0),
+                            child: new Text(
+                              "Yesterday\'s word:",
+                              style: new TextStyle(
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    new Row( // yesterday word
+                      children: [
+                        new Expanded(
+                          child: new Container(
+                            margin: const EdgeInsets.only(left: 32.0, top: 0, right: 32.0, bottom: 4.0),
+                            child: new Text(
+                              snapshot.data.yesWordData[0].toLowerCase(),
+                              style: new TextStyle(
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    new Row( // yesterday pos & def
+                      children: [
+                        new Expanded(
+                          child: new Container(
+                            margin: const EdgeInsets.only(left: 32.0, top: 0, right: 32.0, bottom: 32.0),
+                            child: new RichText(
+                              text: TextSpan(
+                                style: new TextStyle(
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: snapshot.data.yesWordData[1] + ". ", 
+                                    style: TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: snapshot.data.yesWordData[2],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  
+                    new RaisedButton(
+                      child: Text(
+                        "Archived words",
+                        style: new TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      color: Colors.blue,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => WordPreviousWidget(post: fetchWordPreviousPost()),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 );
