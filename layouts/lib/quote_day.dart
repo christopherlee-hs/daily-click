@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'quote_day_previous.dart';
 
 // TODO: make code compatible with new format json files (arrays)
+// TODO: convert input files to .json
+// TODO: make code and input files compatible with new date format: day = character (char code of day + 64) for better alphanumeric sorting
 
 Future<Post> fetchQuotePost() async {
   final response = await http.get('https://chrisunjae.github.io/daily-click/quote_day.txt');
@@ -17,9 +19,9 @@ Future<Post> fetchQuotePost() async {
 }
 
 var now = new DateTime.now();
-String today = now.year.toString() + ' ' + now.month.toString() + ' ' + now.day.toString();
+String today = now.year.toString() + ' ' + now.month.toString() + ' ' + String.fromCharCode(now.day + 64);
 var prev = new DateTime(now.year, now.month, now.day - 1);
-String yesterday = prev.year.toString() + ' ' + prev.month.toString() + ' ' + prev.day.toString();
+String yesterday = prev.year.toString() + ' ' + prev.month.toString() + ' ' + String.fromCharCode(prev.day + 64);
 
 class Post {
   final List<String> quoteData;
