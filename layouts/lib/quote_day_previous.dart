@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 // TODO: fix all this broken code
 
 Future<Post> fetchQuotePreviousPost() async {
-  final response = await http.get('https://chrisunjae.github.io/daily-click/quote_day.txt');
+  final response = await http.get('https://chrisunjae.github.io/daily-click/quote_day.json');
   if (response.statusCode == 200) {
     return Post.fromJson(json.decode(response.body));
   }
@@ -47,12 +47,13 @@ class QuotePreviousWidget extends StatelessWidget {
               future: post,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
+                  print(snapshot.data.quoteData);
                   return ListView.separated(
                     itemCount: 100,
                     separatorBuilder: (context, position) => Divider(),
                     itemBuilder: (context, position) {
                       var date = new DateTime(today.year, today.month, today.day - position);
-                      String sDate = date.year.toString() + ' ' + date.month.toString() + ' ' + date.day.toString();
+                      String sDate = date.year.toString() + ' ' + date.month.toString() + ' ' + String.fromCharCode(date.day + 64);
                       Map<String, List<dynamic>> quoteDataMap = snapshot.data.quoteData;
                       if (quoteDataMap.containsKey(sDate)) {
                         return new Container(
