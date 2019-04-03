@@ -47,7 +47,9 @@ class QuotePreviousWidget extends StatelessWidget {
               future: post,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return ListView.builder(
+                  return ListView.separated(
+                    itemCount: 100,
+                    separatorBuilder: (context, position) => Divider(),
                     itemBuilder: (context, position) {
                       var date = new DateTime(today.year, today.month, today.day - position);
                       String sDate = date.year.toString() + ' ' + date.month.toString() + ' ' + date.day.toString();
