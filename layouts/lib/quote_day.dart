@@ -80,7 +80,7 @@ class QuoteWidget extends StatelessWidget {
                           child: new Container(
                             margin: const EdgeInsets.only(left: 32.0, top: 0.0, right: 32.0, bottom: 8.0),
                             child: new Text(
-                              '\"' + snapshot.data.quoteData[0] + '\"' ?? '',
+                              '\"' + snapshot.data.quoteData[0].replaceAll("\"", "\'") + '\"' ?? '',
                               style: new TextStyle(
                                 fontSize: 24.0,
                                 fontWeight: FontWeight.w400,
@@ -140,7 +140,7 @@ class QuoteWidget extends StatelessWidget {
                           child: new Container(
                             margin: const EdgeInsets.only(left: 32.0, top: 0.0, right: 32.0, bottom: 4.0),
                             child: new Text(
-                              '\"' + snapshot.data.yesQuoteData[0] + '\"' ?? '',
+                              '\"' + snapshot.data.yesQuoteData[0].replaceAll("\"", "\'") + '\"' ?? '',
                               style: new TextStyle(
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w400,
