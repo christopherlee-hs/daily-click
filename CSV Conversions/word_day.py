@@ -1,7 +1,7 @@
 import json
 import csv
 
-filename = "Quote_Word_Person_Fact of the Day Ideas - Words.csv"
+filename = "Quote_Word_Person_Fact of the Day Ideas - Word.csv"
 path = "CSVs/" + filename
 
 words = []
@@ -45,13 +45,13 @@ with open(outpath, "r") as jsonfile:
     lastdayformat = [int(temp[0]), int(temp[1]), ord(temp[2])-64]
     day = lastdayformat
     try:
-        start = quotes.index(data[lastday][0]) + 1
+        start = words.index(data[lastday][0]) + 1
         pass
     except:
         start = 0
         pass
     
-    length = len(quotes)
+    length = len(words)
     for i in range(start, length):
         day = nextday(day)
         daystring = str(day[0]) + " " + str(day[1]) + " " + chr(day[2]+64)
