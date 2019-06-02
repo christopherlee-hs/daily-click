@@ -10,7 +10,7 @@ Future<Post> fetchQuotePreviousPost() async {
     return Post.fromJson(json.decode(response.body));
   }
   else {
-    throw Exception('Failed to load post');
+    throw Exception('Under construction... Come back later!');
   }
 }
 
