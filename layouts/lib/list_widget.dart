@@ -19,7 +19,7 @@ class _ListState extends State<ListWidget> {
       body: new Container(
         margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
         child: ListView.builder(
-          itemCount: 4,
+          itemCount: 2,
           itemBuilder: (context, position) {
             if (position < 4) {
               return RaisedButton(
